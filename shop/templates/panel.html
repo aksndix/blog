@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel</title>
+</head>
+<body>
+    <div class="panel">
+        <h3>ورودی‌های ثبت شده:</h3>
+        {% for input in inputs %}
+            <div class="input-item">
+                <p><strong>عنوان:</strong> {{ input.title }}</p>
+                <p><strong>نوع ساختمان:</strong> {{ input.building_type }}</p>
+                <p><strong>شهر:</strong> {{ input.city }}</p>
+                <p><strong>آدرس:</strong> {{ input.address }}</p>
+                <p><strong>موجودی:</strong>{{ input.mony }}</p>
+                <p><strong>تاریخ:</strong>{{ input.time }}</p>
+                <p><strong>شماره شبا:</strong>{{ input.shaba }}</p>
+                <hr>
+            </div>
+        {% empty %}
+            <p>هیچ ورودی ثبت نشده است.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

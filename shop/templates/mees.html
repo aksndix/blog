@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>پیام‌ها</title>
+</head>
+<body>
+    <h1>پیام‌های شما</h1>
+    <ul>
+        {% for text in texts %}
+            <li>{{ text.نام_نام_خانوادگی }} ({{ text.تلفن }}): {{ text.پیام }}</li>
+        {% empty %}
+            <li>هیچ پیامی وجود ندارد.</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'shop:pricing_plan' %}">برگشت به ارسال پیام</a></p>
+</body>
+</html>

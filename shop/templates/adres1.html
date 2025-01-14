@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست آدرس‌ها</title>
+</head>
+<body>
+    <div class="container">
+        <h1>لیست آدرس‌های شما</h1>
+        
+        <ol>
+            {% for address in addresses %}
+                <li>
+                    نام و نام خانوادگی: {{ address.نام_نام_خانوادگی }} <br>
+                    تلفن: {{ address.تلفن }} <br>
+                    شهر: {{ address.شهر }} <br>
+                    آدرس: {{ address.ادرس }} <br>
+                    تعداد_واحد: {{ address.تعداد_واحد }} <br>
+                </li>
+            {% empty %}
+                <li>هیچ آدرسی وجود ندارد.</li>
+            {% endfor %}
+        </ol>
+
+        <p><a href="{% url 'shop:setting' %}">برگشت به ورود آدرس</a></p>
+    </div>
+</body>
+</html>

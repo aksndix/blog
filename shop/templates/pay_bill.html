@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>پرداخت قبض</title>
+</head>
+<body>
+    <h1>پرداخت قبض</h1>
+    <p>واحد: {{ bill.واحد }}</p>
+    <p>مبلغ: {{ bill.مبلغ }}</p>
+    <p>تاریخ: {{ bill.تاریخ }}</p>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">پرداخت</button>
+    </form>
+</body>
+</html>
