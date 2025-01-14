@@ -6,9 +6,9 @@
 </head>
 <body>
     <h1>پرداخت قبض</h1>
-    <p>واحد: {{ bill.واحد }}</p>
-    <p>مبلغ: {{ bill.مبلغ }}</p>
-    <p>تاریخ: {{ bill.تاریخ }}</p>
+    <p>واحد: {{ bill.unit }}</p>
+    <p>مبلغ: {{ bill.price }}</p>
+    <p>تاریخ: {{ bill.date }}</p>
     {% if messages %}
         <ul>
             {% for message in messages %}

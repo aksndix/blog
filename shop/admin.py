@@ -1,41 +1,41 @@
 from django.contrib import admin
-from .models import Post, Text, Adres, UserInput, Bill
+from .models import Post, Text, Adres, Building, Bill
 
 class TextAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'نام_نام_خانوادگی', 'تلفن', 'پیام'] 
-    list_filter = ['نام_نام_خانوادگی', 'تلفن', 'پیام']  
-    ordering = ['نام_نام_خانوادگی'] 
+    list_display = ['__str__', 'nameAndFamily', 'phone', 'text']
+    list_filter = ['nameAndFamily', 'phone', 'text']
+    ordering = ['nameAndFamily']
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'نام_نام_خانوادگی', 'تلفن', 'شهر', 'ادرس', 'تعداد_واحد']
-    list_filter = ['تلفن', 'شهر']  
-    ordering = ['نام_نام_خانوادگی', 'شهر']  
-    search_fields = ['نام_نام_خانوادگی', 'تلفن', 'شهر'] 
+    list_display = ['__str__', 'nameAndFamily', 'phone', 'city', 'address', 'numberOfUnit']
+    list_filter = ['phone', 'city']
+    ordering = ['nameAndFamily', 'city']
+    search_fields = ['nameAndFamily', 'phone', 'city']
 
 class AdresAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'نام_نام_خانوادگی', 'تلفن', 'شهر', 'ادرس', 'تعداد_واحد']
-    list_filter = ['تلفن', 'شهر']  
-    ordering = ['نام_نام_خانوادگی', 'شهر', 'تعداد_واحد']  
-    search_fields = ['نام_نام_خانوادگی', 'تلفن', 'شهر'] 
+    list_display = ['__str__', 'nameAndFamily', 'phone', 'city', 'address', 'numberOfUnit']
+    list_filter = ['phone', 'city']
+    ordering = ['nameAndFamily', 'city', 'numberOfUnit']
+    search_fields = ['nameAndFamily', 'phone', 'city']
 
 class UserInputAdmin(admin.ModelAdmin):
-    list_display = ['عنوان', 'نوع_ساختمان', 'شهر', 'آدرس', 'موجودی_اولیه', 'تاریخ', 'شبا']
-    list_filter = ['نوع_ساختمان', 'موجودی_اولیه']  
-    ordering = ['عنوان', 'شهر']  
-    search_fields = ['عنوان', 'نوع_ساختمان', 'شهر']
+    list_display = ['id', 'title', 'typeOfBuilding', 'city', 'address', 'initialInventory', 'date', 'shaba']
+    list_filter = ['typeOfBuilding', 'initialInventory']
+    ordering = ['title', 'city']
+    search_fields = ['title', 'typeOfBuilding', 'city']
 
 class BillAdmin(admin.ModelAdmin):
-    list_display = ['واحد', 'مبلغ', 'تاریخ', 'پرداخت_شده']
-    list_filter = ['واحد', 'پرداخت_شده', 'تاریخ']
-    ordering = ['تاریخ', 'واحد']
-    search_fields = ['واحد__نام_نام_خانوادگی', 'واحد__تلفن', 'تاریخ']
+    list_display = ['unit', 'price', 'date', 'paid']
+    list_filter = ['unit', 'paid', 'date']
+    ordering = ['date', 'unit']
+    search_fields = ['واحد__نام_نام_خانوادگی', 'واحد__تلفن', 'date']
 
 from django.contrib import admin
 from .models import MemberRegistration
 
 class MemberRegistrationAdmin(admin.ModelAdmin):
-    list_display = ['get_email', 'get_password', 'نوع_ساختمان', 'واحد', 'رمز_مشترک']
-    search_fields = ['user__username', 'نوع_ساختمان', 'واحد']
+    list_display = ['get_email', 'get_password', 'typeOfBuilding', 'unit', 'sharedKey']
+    search_fields = ['user__username', 'typeOfBuilding', 'unit']
 
     def get_email(self, obj):
         return obj.user.email
@@ -50,7 +50,7 @@ class MemberRegistrationAdmin(admin.ModelAdmin):
 admin.site.register(MemberRegistration, MemberRegistrationAdmin)
 admin.site.register(Text, TextAdmin)  
 admin.site.register(Adres, AdresAdmin) 
-admin.site.register(UserInput, UserInputAdmin)
+admin.site.register(Building, UserInputAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Bill, BillAdmin)
 

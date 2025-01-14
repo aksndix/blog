@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Text, Adres, UserInput
+from .models import Post, Text, Adres, Building
 from .forms import UserInputForm
 from django.contrib import messages
 
@@ -9,7 +9,7 @@ def about(request):
 
 
 def panel(request):
-    inputs = UserInput.objects.all()
+    inputs = Building.objects.all()
     return render(request, 'panel.html', {'inputs': inputs})
 
 def assignment(request):
@@ -44,20 +44,18 @@ def index_3(request):
 
 def library(request):
     if request.method == 'POST':
-        عنوان = request.POST.get('عنوان')
-        نوع_ساختمان = request.POST.get('نوع_ساختمان')
-        شهر = request.POST.get('شهر')
-        ادرس = request.POST.get('ادرس')
-        تعداد_واحد = request.POST.get('تعداد_واحد')
-        
+        title = request.POST.get('عنوان')
+        building_type = request.POST.get('نوع_ساختمان')
+        city = request.POST.get('شهر')
+        address = request.POST.get('ادرس')
+        number_of_units = request.POST.get('تعداد_واحد')
 
         new_address = Adres(
-            عنوان=عنوان,
-            نوع_ساختمان=نوع_ساختمان,
-            شهر=شهر,
-            ادرس=ادرس,
-            تعداد_واحد=تعداد_واحد,
-            
+            title=title,
+            building_type=building_type,
+            city=city,
+            address=address,
+            number_of_units=number_of_units,
         )
         new_address.save()
 
@@ -82,12 +80,12 @@ def message(request):
     return render(request, 'message.html')
 ############################################################################################################
 def pricing_plan(request):
-    if request.method == 'POST': 
-        نام_نام_خانوادگی = request.POST['نام_نام_خانوادگی']
-        تلفن = request.POST['تلفن'] 
-        پیام = request.POST['پیام']
+    if request.method == 'POST':
+        name_and_family = request.POST['نام_نام_خانوادگی']
+        phone = request.POST['تلفن']
+        message = request.POST['پیام']
 
-        text = Text(نام_نام_خانوادگی=نام_نام_خانوادگی, تلفن=تلفن, پیام=پیام)
+        text = Text(nameAndFamily=name_and_family, phone=phone, message=message)
         text.save()
 
         return render(request, 'pricing_plan.html', {'success': True})
@@ -107,15 +105,18 @@ from django.shortcuts import render, redirect
 
 
 def setting(request):
-    if request.method == 'POST': 
-        نام_نام_خانوادگی = request.POST['نام_نام_خانوادگی']
-        تلفن = request.POST['تلفن'] 
-        شهر = request.POST['شهر']
-        ادرس = request.POST['ادرس']
-        تعداد_واحد = int(request.POST['تعداد_واحد'])  # Convert to integer
+    if request.method == 'POST':
+        #convert farsi names to english
+
+        name_and_family = request.POST['نام_نام_خانوادگی']
+        phone = request.POST['تلفن']
+        city = request.POST['شهر']
+        address = request.POST['ادرس']
+        number_of_units = int(request.POST['تعداد_واحد'])  # Convert to integer
 
         # Rename the instance variable to avoid conflict
-        adres_instance = Adres(نام_نام_خانوادگی=نام_نام_خانوادگی, تلفن=تلفن, شهر=شهر, ادرس=ادرس, تعداد_واحد=تعداد_واحد)
+        adres_instance = Adres(nameAndFamily=name_and_family, phone=phone, city=city, address=address,
+                               numberOfUnit=number_of_units)
         adres_instance.save()
 
         return render(request, 'setting.html', {'success': True})
@@ -154,7 +155,7 @@ def adres1(request):
     return render(request, 'adres1.html', {'addresses': addresses})
 
 def mees(request):
-    texts = Text.objects.all()  
+    texts = Text.objects.all()
     return render(request, 'mees.html', {'texts': texts})
 
 
@@ -162,13 +163,13 @@ def custom_404_view(request, *args, **kwargs):
     invalid_url = request.path
     return render(request, 'error.html', {
         'invalid_url': invalid_url,
-        'error_message': 'آدرس اشتباه است'  
+        'error_message': 'آدرس اشتباه است'
     })
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import CreateBillForm, PayBillForm, UserInputForm, MemberForm, CustomUserCreationForm
-from .models import Bill, UserInput, Member
+from .models import Bill, Building, Member
 
 def create_building(request):
     if request.method == 'POST':
@@ -228,7 +229,7 @@ def register_member(request):
             member.save()
 
             try:
-                member_group = Group.objects.get(name='کاربران ساختمان')
+                member_group = Group.objects.get(name='buildingUser')
                 member_group.user_set.add(user)
             except Group.DoesNotExist:
                 messages.error(request, "گروه 'کاربران ساختمان' وجود ندارد. لطفا با ادمین سیستم تماس بگیرید.")
@@ -247,7 +248,6 @@ def register_member(request):
 
 from django.contrib.auth.decorators import login_required
 
-@login_required
 def analytics(request):
     if request.method == 'POST':
         form = UserInputForm(request.POST)
@@ -265,7 +265,7 @@ def analytics(request):
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 def is_building_manager(user):
-    return user.groups.filter(name='مدیر ساختمان').exists() or user.groups.filter(name='کاربران ساختمان').exists()
+    return user.groups.filter(name='buildingManager').exists() or user.groups.filter(name='buildingUser').exists()
 
 @login_required
 @user_passes_test(is_building_manager)
@@ -278,7 +278,7 @@ def shared_page(request):
 from django.contrib.auth.models import Group
 
 def create_groups():
-    group_names = ['کاربران ساختمان', 'مدیر ساختمان']
+    group_names = ['buildingUser', 'buildingManager']
     for group_name in group_names:
         group, created = Group.objects.get_or_create(name=group_name)
         if created:

@@ -1,32 +1,32 @@
 # forms.py
 from django import forms
-from .models import Bill, UserInput, Member
+from .models import Bill, Building, Member
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class CreateBillForm(forms.ModelForm):
     class Meta:
         model = Bill
-        fields = ['واحد', 'مبلغ', 'تاریخ']
+        fields = ['unit', 'price', 'date']
 
 class PayBillForm(forms.ModelForm):
     class Meta:
         model = Bill
-        fields = ['پرداخت_شده']
+        fields = ['paid']
 
 class UserInputForm(forms.ModelForm):
     class Meta:
-        model = UserInput
-        fields = ['عنوان', 'نوع_ساختمان', 'شهر', 'آدرس', 'موجودی_اولیه', 'تاریخ', 'شبا']
+        model = Building
+        fields = ['title', 'typeOfBuilding', 'city', 'address', 'initialInventory', 'date', 'shaba']
 
-    نوع_ساختمان = forms.ChoiceField(choices=UserInput.نوع_ساختمان_choices)
+    typeOfBuilding = forms.ChoiceField(choices=Building.choices_building_type)
 
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['نوع_ساختمان', 'واحد', 'رمز_مشترک']
+        fields = ['typeOfBuilding', 'unit', 'sharedKey']
 
-    نوع_ساختمان = forms.CharField()
+    typeOfBuilding = forms.CharField()
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -43,7 +43,7 @@ from django.contrib.auth.models import User
 class MemberRegistrationForm(forms.ModelForm):
     class Meta:
         model = MemberRegistration
-        fields = ['نوع_ساختمان', 'واحد', 'رمز_مشترک']
+        fields = ['typeOfBuilding', 'unit', 'sharedKey']
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)

@@ -13,11 +13,11 @@
         <ol>
             {% for address in addresses %}
                 <li>
-                    نام و نام خانوادگی: {{ address.نام_نام_خانوادگی }} <br>
-                    تلفن: {{ address.تلفن }} <br>
-                    شهر: {{ address.شهر }} <br>
-                    آدرس: {{ address.ادرس }} <br>
-                    تعداد_واحد: {{ address.تعداد_واحد }} <br>
+                    نام و نام خانوادگی: {{ address.nameAndFamily }} <br>
+                    تلفن: {{ address.phone }} <br>
+                    شهر: {{ address.city }} <br>
+                    آدرس: {{ address.address }} <br>
+                    تعداد_واحد: {{ address.numberOfUnit }} <br>
                 </li>
             {% empty %}
                 <li>هیچ آدرسی وجود ندارد.</li>

@@ -8,7 +8,7 @@
     <h1>پیام‌های شما</h1>
     <ul>
         {% for text in texts %}
-            <li>{{ text.نام_نام_خانوادگی }} ({{ text.تلفن }}): {{ text.پیام }}</li>
+            <li>{{ text.nameAndFamily }} ({{ text.phone }}): {{ text.text }}</li>
         {% empty %}
             <li>هیچ پیامی وجود ندارد.</li>
         {% endfor %}
